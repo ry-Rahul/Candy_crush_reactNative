@@ -8,13 +8,21 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from 'react-native-reanimated';
+import {useSound} from '../navigation/SoundContext';
 
 const HomeScreen = () => {
+  const {playSound} = useSound();
   const isFocused = useIsFocused();
   const translateY = useSharedValue(-200);
 
   useEffect(() => {
     translateY.value = withTiming(0, {duration: 3000});
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (isFocused) {
+      playSound('bg', true);
+    }
   }, [isFocused]);
 
   const animatedStyle = useAnimatedStyle(() => {
