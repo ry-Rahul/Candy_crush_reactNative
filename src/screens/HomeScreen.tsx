@@ -9,6 +9,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useSound} from '../navigation/SoundContext';
+import LottieView from 'lottie-react-native';
+import ScalePress from '../components/UI/ScalePress';
+import {navigate} from '../utils/NavigationUtil';
+import Footer from '../components/UI/Footer';
 
 const HomeScreen = () => {
   const {playSound} = useSound();
@@ -34,11 +38,31 @@ const HomeScreen = () => {
   return (
     <ImageBackground
       source={require('../assets/images/b2.png')}
-      style={commonStyles.simpleContainer}>
+      style={commonStyles.container}>
       <Animated.Image
         source={require('../assets/images/banner.png')}
         style={[styles.img, animatedStyle]}
       />
+
+      <LottieView
+        source={require('../assets/animations/bird.json')}
+        speed={1}
+        loop
+        autoPlay
+        hardwareAccelerationAndroid
+        style={styles.lottieView}
+      />
+
+      <ScalePress
+        style={styles.playButtonContainer}
+        onPress={() => navigate('LevelScreen')}>
+        <Image
+          source={require('../assets/icons/play.png')}
+          style={styles.playButton}
+        />
+      </ScalePress>
+
+      <Footer />
     </ImageBackground>
   );
 };
@@ -50,6 +74,22 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -20,
     resizeMode: 'contain',
+  },
+  lottieView: {
+    width: 200,
+    height: 200,
+    position: 'absolute',
+    left: -20,
+    top: '26%',
+    transform: [{scaleX: -1}],
+  },
+  playButton: {
+    width: screenWidth * 0.5,
+    height: screenWidth * 0.2,
+    resizeMode: 'contain',
+  },
+  playButtonContainer: {
+    marginTop: screenHeight * 0.4,
   },
 });
 
