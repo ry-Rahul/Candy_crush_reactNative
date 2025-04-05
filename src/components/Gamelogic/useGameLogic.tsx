@@ -53,7 +53,7 @@ const useGameLogic = (data: any[][], setData: (data: any) => any) => {
         animatedValues[targetRow][targetCol]!.x,
         {
           toValue: (colIndex - targetCol) * RFPercentage(5),
-          duration: 200,
+          duration: 300,
           useNativeDriver: true,
         },
       );
@@ -61,7 +61,7 @@ const useGameLogic = (data: any[][], setData: (data: any) => any) => {
         animatedValues[targetRow][targetCol]!.y,
         {
           toValue: (rowIndex - targetRow) * RFPercentage(5),
-          duration: 200,
+          duration: 300,
           useNativeDriver: true,
         },
       );
@@ -70,7 +70,7 @@ const useGameLogic = (data: any[][], setData: (data: any) => any) => {
         animatedValues[rowIndex][colIndex]!.x,
         {
           toValue: (targetCol - colIndex) * RFPercentage(5),
-          duration: 200,
+          duration: 300,
           useNativeDriver: true,
         },
       );
@@ -78,7 +78,7 @@ const useGameLogic = (data: any[][], setData: (data: any) => any) => {
         animatedValues[rowIndex][colIndex]!.y,
         {
           toValue: (targetRow - rowIndex) * RFPercentage(5),
-          duration: 200,
+          duration: 300,
           useNativeDriver: true,
         },
       );

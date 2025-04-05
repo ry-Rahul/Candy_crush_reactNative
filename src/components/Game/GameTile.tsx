@@ -15,6 +15,11 @@ const GameTile: FC<{
   setData: (data: any) => any;
   setCollectedCandies: (data: any) => any;
 }> = ({data, setData, setCollectedCandies}) => {
+  // Return null if data is not yet initialized
+  if (!data) {
+    return null;
+  }
+
   const {handleGesture, animatedValues} = useGameLogic(data, setData);
 
   return (
@@ -54,7 +59,8 @@ const GameTile: FC<{
                         source={getCandyImage(tile)}
                         style={[
                           styles.candy,
-                          tile == null || !animatedValues?.[rowIndex]?.[colIndex]
+                          tile == null ||
+                          !animatedValues?.[rowIndex]?.[colIndex]
                             ? {}
                             : {
                                 transform: [
