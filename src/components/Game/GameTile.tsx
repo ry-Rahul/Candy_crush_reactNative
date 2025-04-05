@@ -3,28 +3,47 @@ import React, {FC} from 'react';
 import {screenHeight} from '../../utils/Constants';
 import {
   gestureHandlerRootHOC,
-  GestureHandlerRootView,
   PanGestureHandler,
+  State,
 } from 'react-native-gesture-handler';
 import {RFPercentage} from 'react-native-responsive-fontsize';
 import {getCandyImage} from '../../utils/data';
+import useGameLogic from '../Gamelogic/useGameLogic';
 
 const GameTile: FC<{
   data: any[][];
   setData: (data: any) => any;
   setCollectedCandies: (data: any) => any;
 }> = ({data, setData, setCollectedCandies}) => {
+  const {handleGesture, animatedValues} = useGameLogic(data, setData);
+
   return (
     <View style={styles.flex2}>
-      {data?.map((row, index) => {
+      {data?.map((row, rowIndex) => {
         return (
-          <View key={index} style={styles.row}>
-            {row?.map((tile, colIdx) => {
+          <View key={rowIndex} style={styles.row}>
+            {row?.map((tile, colIndex) => {
               return (
                 <PanGestureHandler
-                  key={`${index}-${colIdx}`}
-                  onGestureEvent={event => {}}
-                  onHandlerStateChange={event => {}}>
+                  key={`${rowIndex}-${colIndex}`}
+                  onGestureEvent={event => {
+                    handleGesture(
+                      event,
+                      rowIndex,
+                      colIndex,
+                      State.ACTIVE,
+                      setCollectedCandies,
+                    );
+                  }}
+                  onHandlerStateChange={event => {
+                    handleGesture(
+                      event,
+                      rowIndex,
+                      colIndex,
+                      event?.nativeEvent?.state,
+                      setCollectedCandies,
+                    );
+                  }}>
                   <View
                     style={[
                       styles.tile,
@@ -33,7 +52,23 @@ const GameTile: FC<{
                     {tile != null && (
                       <Animated.Image
                         source={getCandyImage(tile)}
-                        style={[styles.candy]}
+                        style={[
+                          styles.candy,
+                          tile == null || !animatedValues?.[rowIndex]?.[colIndex]
+                            ? {}
+                            : {
+                                transform: [
+                                  {
+                                    translateX:
+                                      animatedValues[rowIndex][colIndex]?.x,
+                                  },
+                                  {
+                                    translateY:
+                                      animatedValues[rowIndex][colIndex]?.y,
+                                  },
+                                ],
+                              },
+                        ]}
                         resizeMode={'contain'}
                       />
                     )}
